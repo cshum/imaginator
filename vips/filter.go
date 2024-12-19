@@ -32,8 +32,13 @@ func (v *Processor) watermark(ctx context.Context, img *Image, load imagor.LoadF
 	var down = 1
 	var overlay *Image
 	var n = 1
+	resizeMode := SizeBoth
 	if isAnimated(img) {
 		n = -1
+	}
+	// resize_mode
+	if ln >= 7 && args[6] == "force" {
+		resizeMode = SizeForce
 	}
 	// w_ratio h_ratio
 	if ln >= 6 {
@@ -47,8 +52,9 @@ func (v *Processor) watermark(ctx context.Context, img *Image, load imagor.LoadF
 			h, _ = strconv.Atoi(args[5])
 			h = img.PageHeight() * h / 100
 		}
+
 		if overlay, err = v.NewThumbnail(
-			ctx, blob, w, h, InterestingNone, SizeBoth, n, 1, 0,
+			ctx, blob, w, h, InterestingNone, resizeMode, n, 1, 0,
 		); err != nil {
 			return
 		}

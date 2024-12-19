@@ -134,7 +134,7 @@ imagor supports the following filters:
 - `strip_icc()` removes ICC profile information from the resulting image
 - `strip_metadata()` removes all metadata from the resulting image
 - `upscale()` upscale the image if `fit-in` is used
-- `watermark(image, x, y, alpha [, w_ratio [, h_ratio]])` adds a watermark to the image. It can be positioned inside the image with the alpha channel specified and optionally resized based on the image size by specifying the ratio
+- `watermark(image, x, y, alpha [, w_ratio [, h_ratio [, resize_mode]]])` adds a watermark to the image. It can be positioned inside the image with the alpha channel specified and optionally resized based on the image size by specifying the ratio
   - `image` watermark image URI, using the same image loader configured for imagor
   - `x` horizontal position that the watermark will be in:
     - Positive number indicate position from the left, negative number from the right.
@@ -149,6 +149,7 @@ imagor supports the following filters:
   - `alpha` watermark image transparency, a number between 0 (fully opaque) and 100 (fully transparent).
   - `w_ratio` percentage of the width of the image the watermark should fit-in
   - `h_ratio` percentage of the height of the image the watermark should fit-in
+  - `resize_mode` resize mode of the watermark. If 'force', the watermark will be resized to w_ratio and h_ratio regardless of the watermark's aspect ratio. Otherwise, the watermark will be resized to fit within the w_ratio and h_ratio, respecting its aspect ratio.
 
 #### Utility Filters
 
