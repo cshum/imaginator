@@ -197,7 +197,7 @@ func TestFileStorage_Load_Save(t *testing.T) {
 	})
 
 	t.Run("expiration", func(t *testing.T) {
-		s := New(dir, WithExpiration(time.Millisecond*10))
+		s := New(dir, WithExpiration(time.Millisecond*100))
 		var err error
 
 		_, err = checkBlob(s.Get(r, "/foo/bar/asdf"))

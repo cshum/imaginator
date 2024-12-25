@@ -83,12 +83,12 @@ func (s *S3Storage) Get(r *http.Request, image string) (*imagor.Blob, error) {
 	var blob *imagor.Blob
 	var once sync.Once
 	blob = imagor.NewBlob(func() (io.ReadCloser, int64, error) {
-		input := &s3.GetObjectInput{
-			Bucket: aws.String(s.Bucket),
-			Key:    aws.String(image),
-		}
-		out, err := s.S3.GetObjectWithContext(ctx, input)
-		if e, ok := err.(awserr.Error); ok && e.Code() == s3.ErrCodeNoSuchKey {
+		r := NewS3ReadSeeker(
+			ctx, s.S3, s.Bucket, image,
+			1<<10*100, // 100 KB
+		)
+		out, err := r.Head()
+		if e, ok := err.(awserr.Error); ok && (e.Code() == s3.ErrCodeNoSuchKey || e.Code() == "NotFound") {
 			return nil, 0, imagor.ErrNotFound
 		} else if err != nil {
 			return nil, 0, err
@@ -114,7 +114,7 @@ func (s *S3Storage) Get(r *http.Request, image string) (*imagor.Blob, error) {
 		if out.ContentLength != nil {
 			size = *out.ContentLength
 		}
-		return out.Body, size, nil
+		return r, size, nil
 	})
 	return blob, nil
 }
