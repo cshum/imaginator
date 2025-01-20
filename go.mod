@@ -5,7 +5,7 @@ go 1.22
 require (
 	cloud.google.com/go/storage v1.48.0
 	github.com/TheZeroSlave/zapsentry v1.23.0
-	github.com/aws/aws-sdk-go v1.55.5
+	github.com/aws/aws-sdk-go v1.55.6
 	github.com/fsouza/fake-gcs-server v1.50.2
 	github.com/getsentry/sentry-go v0.30.0
 	github.com/johannesboyne/gofakes3 v0.0.0-20241026070602-0da3aa9c32ca
